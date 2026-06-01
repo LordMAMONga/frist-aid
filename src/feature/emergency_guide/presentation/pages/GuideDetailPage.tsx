@@ -4,11 +4,14 @@ import { useEmergencyDetail } from "../hooks/useEmergencyDetail";
 import { Typography } from "../../../../core/widgets/Typography/Typography";
 import { Button } from "../../../../core/widgets/Button/Button";
 import { Card } from "../../../../core/widgets/Card/Card";
+import { useLanguage } from "../../../../core/localization/LanguageContext";
 
 export const GuideDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { guide, isLoading } = useEmergencyDetail(id);
+
+  const { t } = useLanguage();
 
   if (isLoading)
     return (
@@ -16,6 +19,7 @@ export const GuideDetailPage: React.FC = () => {
         <Typography variant="body">Загрузка...</Typography>
       </div>
     );
+
   if (!guide)
     return (
       <div style={{ padding: "var(--space-md)" }}>
@@ -40,13 +44,14 @@ export const GuideDetailPage: React.FC = () => {
           padding: "var(--space-xs) var(--space-md)",
         }}
       >
-        ← Назад
+        ← {t({ ru: "Назад", ky: "Артка" })}
       </Button>
 
       <div>
-        <Typography variant="h1">{guide.title}</Typography>
+        <Typography variant="h1">{t(guide.title)}</Typography>
         <Typography variant="body" color="muted">
-          {guide.shortDescription}
+          {/* 3. Оборачиваем описание в t() */}
+          {t(guide.shortDescription)}
         </Typography>
       </div>
 
@@ -71,7 +76,8 @@ export const GuideDetailPage: React.FC = () => {
               color={step.isCritical ? "critical" : "main"}
               style={{ fontWeight: step.isCritical ? "bold" : "normal" }}
             >
-              Шаг {step.id}: {step.text}
+              {/* 4. Оборачиваем текст шага в t() */}
+              {t({ ru: "Шаг", ky: "Кадам" })} {step.id}: {t(step.text)}
             </Typography>
           </Card>
         ))}
@@ -82,7 +88,7 @@ export const GuideDetailPage: React.FC = () => {
         fullWidth
         onClick={() => (window.location.href = "tel:103")}
       >
-        Вызвать скорую (103)
+        {t({ ru: "Вызвать скорую (103)", ky: "Тез жардам чакыруу (103)" })}
       </Button>
     </div>
   );

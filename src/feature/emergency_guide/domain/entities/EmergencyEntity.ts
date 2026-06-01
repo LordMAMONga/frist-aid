@@ -1,13 +1,18 @@
-export interface AidStepEntity {
+export interface LocalizedString {
+  ru: string;
+  ky: string;
+}
+
+export interface EmergencyStepEntity {
   id: number;
-  text: string;
+  text: LocalizedString; // Теперь текст шага локализован
   isCritical: boolean;
 }
 
 export interface EmergencyCaseEntity {
   id: string;
-  title: string;
-  shortDescription: string;
+  title: LocalizedString; // Титул локализован
+  shortDescription: LocalizedString; // Описание локализовано
   icon: string;
-  steps: AidStepEntity[];
+  steps: EmergencyStepEntity[];
 }

@@ -39,7 +39,6 @@ export const Typography: React.FC<TypographyProps> = ({
   const Component = variant === "body" || variant === "caption" ? "p" : variant;
 
   return (
-    // 3. Объединяем базовые стили со стилями из props
     <Component
       style={{ ...baseStyles[variant], ...style }}
       className={className}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { EmergencyCaseEntity } from "../../domain/entities/EmergencyEntity";
 import { emergencyRepository } from "../../data/repositories/EmergencyRepositoryImpl";
 
@@ -6,6 +6,8 @@ export const useEmergencyGuide = () => {
   const [guides, setGuides] = useState<EmergencyCaseEntity[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchGuides = async () => {
@@ -19,14 +21,25 @@ export const useEmergencyGuide = () => {
         setIsLoading(false);
       }
     };
-
     fetchGuides();
   }, []);
 
-  // Отдаем данные и методы наружу
+  const filteredGuides = useMemo(() => {
+    if (!searchQuery.trim()) return guides;
+
+    const query = searchQuery.toLowerCase();
+    return guides.filter(
+      (guide) =>
+        guide.title.toLowerCase().includes(query) ||
+        guide.shortDescription.toLowerCase().includes(query),
+    );
+  }, [guides, searchQuery]);
+
   return {
-    guides,
+    guides: filteredGuides,
     isLoading,
     error,
+    searchQuery,
+    setSearchQuery,
   };
 };
