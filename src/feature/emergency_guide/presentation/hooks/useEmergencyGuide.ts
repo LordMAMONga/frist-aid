@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import type { EmergencyCaseEntity } from "../../domain/entities/EmergencyEntity";
 import { emergencyRepository } from "../../data/repositories/EmergencyRepositoryImpl";
+import { useLanguage } from "../../../../core/localization/LanguageContext";
 
 export const useEmergencyGuide = () => {
   const [guides, setGuides] = useState<EmergencyCaseEntity[]>([]);
@@ -8,6 +9,8 @@ export const useEmergencyGuide = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchGuides = async () => {
@@ -30,8 +33,8 @@ export const useEmergencyGuide = () => {
     const query = searchQuery.toLowerCase();
     return guides.filter(
       (guide) =>
-        guide.title.toLowerCase().includes(query) ||
-        guide.shortDescription.toLowerCase().includes(query),
+        t(guide.title).toLowerCase().includes(query) ||
+        t(guide.shortDescription).toLowerCase().includes(query),
     );
   }, [guides, searchQuery]);
 
