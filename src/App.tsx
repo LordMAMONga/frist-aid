@@ -3,7 +3,7 @@ import { AppRouter } from "./core/router/AppRouter";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="import.meta.env.BASE_URL">
       <div style={{ backgroundColor: "#000000", minHeight: "100vh" }}>
         <main
           style={{
