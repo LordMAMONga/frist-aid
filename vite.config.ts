@@ -11,7 +11,7 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"], // Кэшируем все статические файлы
       },
       manifest: {
-        name: "First Aid App",
+        name: "First Aid",
         short_name: "FirstAid",
         description: "Экстренный справочник первой помощи",
         theme_color: "#ffffff",
