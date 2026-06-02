@@ -9,17 +9,21 @@ import { useLanguage } from "../../../../core/localization/LanguageContext";
 
 // --- SVG ИКОНКИ ДЛЯ ГЛАВНОГО ЭКРАНА ---
 const MedicCrossIcon = () => (
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="var(--color-primary)"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--color-primary)">
+    {/* Чаша и ножка */}
+    <path d="M3 7h12a6 6 0 0 1-12 0z" />
+    <path d="M8 13h2v6h3v2H5v-2h3z" />
+
+    {/* Тело змеи */}
+    <path
+      d="M10 3 C16 -1, 21 5, 17 10 C14 14, 12 15, 12 18 C12 20, 14 21, 15 21"
+      fill="none"
+      stroke="var(--color-primary)"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
+    {/* Голова змеи */}
+    <circle cx="9.5" cy="3.5" r="2" />
   </svg>
 );
 

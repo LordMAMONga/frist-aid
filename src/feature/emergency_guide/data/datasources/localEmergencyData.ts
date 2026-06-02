@@ -108,7 +108,7 @@ export const localEmergenciesData: EmergencyCaseEntity[] = [
       ky: "Ичке же көкүрөккө катуу сокку тийгенден кийин, жол кырсыгы",
     },
     icon: svgIcon(
-      '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+      '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
     ),
     steps: [
       {
