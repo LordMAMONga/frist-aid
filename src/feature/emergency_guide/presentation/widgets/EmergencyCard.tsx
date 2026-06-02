@@ -12,7 +12,7 @@ export const EmergencyCard: React.FC<EmergencyCardProps> = ({
   data,
   onClick,
 }) => {
-  const { t } = useLanguage(); // Подключаем локализацию
+  const { t } = useLanguage();
 
   return (
     <div className="card" onClick={onClick}>
@@ -23,9 +23,20 @@ export const EmergencyCard: React.FC<EmergencyCardProps> = ({
           alignItems: "center",
         }}
       >
-        <span style={{ fontSize: "32px" }}>{data.icon}</span>
+        <div
+          dangerouslySetInnerHTML={{ __html: data.icon }}
+          style={{
+            minWidth: "32px",
+            width: "32px",
+            height: "32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--color-primary)",
+          }}
+        />
+
         <div>
-          {/* Пропускаем объект перевода через функцию t() */}
           <Typography variant="h2" style={{ marginBottom: "4px" }}>
             {t(data.title)}
           </Typography>
