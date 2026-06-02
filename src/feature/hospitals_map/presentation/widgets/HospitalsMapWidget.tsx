@@ -15,6 +15,74 @@ import { useLanguage } from "../../../../core/localization/LanguageContext";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
+// --- SVG ИКОНКИ ДЛЯ КАРТЫ ---
+const HospitalMarkerIcon = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 24 24"
+    fill="var(--color-critical)"
+    stroke="white"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.4))" }}
+  >
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+    <line x1="12" y1="7" x2="12" y2="13" />
+    <line x1="9" y1="10" x2="15" y2="10" />
+  </svg>
+);
+
+const PhoneIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ marginRight: "6px" }}
+  >
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const PhoneIconSmall = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const PinIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ marginRight: "4px" }}
+  >
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+// ----------------------------
+
 interface HospitalsMapWidgetProps {
   hospitals: HospitalEntity[];
 }
@@ -72,7 +140,6 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
     if (!userLocation) {
       return hospitals.map((h) => ({ ...h, distance: null }));
     }
-
     return hospitals
       .map((hospital) => {
         const distance = calculateDistance(
@@ -97,9 +164,7 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
   };
 
   return (
-    // Главный контейнер теперь relative, чтобы карта и панель накладывались друг на друга
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      {/* Карта теперь занимает 100% пространства */}
       <Map
         ref={mapRef}
         initialViewState={{
@@ -111,7 +176,6 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ width: "100%", height: "100%" }}
       >
-        {/* Кнопки перенесли в верхний правый угол */}
         <NavigationControl position="top-right" showCompass={false} />
 
         <GeolocateControl
@@ -142,20 +206,16 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
                 handleHospitalSelect(hospital);
               }}
               style={{
-                fontSize: "36px",
                 cursor: "pointer",
-                filter:
-                  selectedHospital?.id === hospital.id
-                    ? "drop-shadow(0 0 8px var(--color-critical))"
-                    : "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
                 transform:
                   selectedHospital?.id === hospital.id
                     ? "scale(1.2)"
                     : "scale(1)",
                 transition: "transform 0.2s ease",
+                transformOrigin: "bottom center",
               }}
             >
-              🏥
+              <HospitalMarkerIcon />
             </div>
           </Marker>
         ))}
@@ -183,9 +243,11 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
                   fontSize: "13px",
                   color: "#666",
                   marginBottom: "12px",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                📍 {t(selectedHospital.address)}
+                <PinIcon /> {t(selectedHospital.address)}
               </Typography>
               <Button
                 variant="critical"
@@ -193,34 +255,38 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
                 onClick={() =>
                   (window.location.href = `tel:${selectedHospital.phone}`)
                 }
-                style={{ padding: "8px", fontSize: "14px" }}
+                style={{
+                  padding: "8px",
+                  fontSize: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                📞 {t({ ru: "Позвонить", ky: "Чалуу" })}
+                <PhoneIcon /> {t({ ru: "Позвонить", ky: "Чалуу" })}
               </Button>
             </div>
           </Popup>
         )}
       </Map>
 
-      {/* Всплывающая панель (Bottom Sheet) поверх карты */}
       <div
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          maxHeight: "40%", // Панель занимает максимум 40% высоты экрана
+          maxHeight: "45%",
           backgroundColor: "var(--color-surface)",
-          borderTopLeftRadius: "20px", // Закругленные углы сверху
+          borderTopLeftRadius: "20px",
           borderTopRightRadius: "20px",
-          boxShadow: "0 -4px 12px rgba(0,0,0,0.3)", // Тень, падающая на карту
+          boxShadow: "0 -4px 12px rgba(0,0,0,0.3)",
           overflowY: "auto",
           padding: "var(--space-md)",
-          zIndex: 10, // Чтобы панель была выше карты
+          zIndex: 10,
           boxSizing: "border-box",
         }}
       >
-        {/* Декоративная полоска ("ручка" для красоты) */}
         <div
           style={{
             width: "40px",
@@ -321,10 +387,9 @@ export const HospitalsMapWidget: React.FC<HospitalsMapWidgetProps> = ({
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "14px",
                     }}
                   >
-                    📞
+                    <PhoneIconSmall />
                   </button>
                 </div>
               </div>

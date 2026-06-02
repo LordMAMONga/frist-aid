@@ -4,13 +4,11 @@ import { useHospitals } from "../hooks/useHospitals";
 import { Typography } from "../../../../core/widgets/Typography/Typography";
 import { Button } from "../../../../core/widgets/Button/Button";
 import { useLanguage } from "../../../../core/localization/LanguageContext";
-import { HospitalsMapWidget } from "../widgets/HospitalsMapWidget"; // Подключили наш виджет
+import { HospitalsMapWidget } from "../widgets/HospitalsMapWidget";
 
 export const MapPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
-
-  // Страница запрашивает данные через хук...
   const { hospitals } = useHospitals();
 
   return (
@@ -22,7 +20,6 @@ export const MapPage: React.FC = () => {
         backgroundColor: "var(--color-bg)",
       }}
     >
-      {/* Шапка */}
       <div
         style={{
           padding: "var(--space-md)",
@@ -51,7 +48,6 @@ export const MapPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ...и просто передает эти данные в виджет карты */}
       <div style={{ flex: 1, position: "relative" }}>
         <HospitalsMapWidget hospitals={hospitals} />
       </div>

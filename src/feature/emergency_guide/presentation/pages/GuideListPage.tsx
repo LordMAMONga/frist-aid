@@ -7,11 +7,63 @@ import { Button } from "../../../../core/widgets/Button/Button";
 import { Input } from "../../../../core/widgets/Input/Input";
 import { useLanguage } from "../../../../core/localization/LanguageContext";
 
+// --- SVG ИКОНКИ ДЛЯ ГЛАВНОГО ЭКРАНА ---
+const MedicCrossIcon = () => (
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="var(--color-primary)"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+  </svg>
+);
+
+const SosIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ marginRight: "8px" }}
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 8v4" />
+    <path d="M12 16h.01" />
+  </svg>
+);
+
+const MapIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ marginRight: "8px" }}
+  >
+    <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
+    <line x1="9" y1="3" x2="9" y2="18" />
+    <line x1="15" y1="6" x2="15" y2="21" />
+  </svg>
+);
+// --------------------------------------
+
 export const GuideListPage: React.FC = () => {
   const { guides, isLoading } = useEmergencyGuide();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-
   const { language, setLanguage, t } = useLanguage();
 
   if (isLoading) return null;
@@ -49,7 +101,7 @@ export const GuideListPage: React.FC = () => {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "28px" }}>⚕️</span>
+            <MedicCrossIcon />
             <Typography variant="h1" style={{ marginBottom: 0 }}>
               {t({ ru: "Первая помощь", ky: "Биринчи жардам" })}
             </Typography>
@@ -72,13 +124,13 @@ export const GuideListPage: React.FC = () => {
                 borderRadius: "4px",
                 fontSize: "12px",
                 fontWeight: "bold",
+                cursor: "pointer",
                 backgroundColor:
                   language === "ru" ? "var(--color-surface)" : "transparent",
                 color:
                   language === "ru"
                     ? "var(--color-primary)"
                     : "var(--color-text-muted)",
-                cursor: "pointer",
               }}
             >
               RU
@@ -91,13 +143,13 @@ export const GuideListPage: React.FC = () => {
                 borderRadius: "4px",
                 fontSize: "12px",
                 fontWeight: "bold",
+                cursor: "pointer",
                 backgroundColor:
                   language === "ky" ? "var(--color-surface)" : "transparent",
                 color:
                   language === "ky"
                     ? "var(--color-primary)"
                     : "var(--color-text-muted)",
-                cursor: "pointer",
               }}
             >
               KY
@@ -113,7 +165,6 @@ export const GuideListPage: React.FC = () => {
         />
       </div>
 
-      {/* Кнопки интерактивных инструментов (Помощник и Карта) */}
       <div
         style={{
           padding: "0 var(--space-md) var(--space-md)",
@@ -126,23 +177,32 @@ export const GuideListPage: React.FC = () => {
           variant="critical"
           fullWidth
           onClick={() => navigate("/triage")}
-          style={{ padding: "16px", fontSize: "18px" }}
+          style={{
+            padding: "16px",
+            fontSize: "16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          🆘 {t({ ru: "Интерактивный помощник", ky: "Интерактивдүү жардамчы" })}
+          <SosIcon />{" "}
+          {t({ ru: "Интерактивный помощник", ky: "Интерактивдүү жардамчы" })}
         </Button>
 
-        {/* НОВАЯ: Кнопка Карты */}
         <Button
           variant="outline"
           fullWidth
           onClick={() => navigate("/map")}
           style={{
             padding: "16px",
-            fontSize: "18px",
+            fontSize: "16px",
             backgroundColor: "var(--color-surface)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          📍{" "}
+          <MapIcon />{" "}
           {t({
             ru: "Карта дежурных больниц",
             ky: "Нөөмөттөгү ооруканалар картасы",
